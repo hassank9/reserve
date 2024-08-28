@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../controller/test_controller.dart';
-import '../core/class/handlingdatarequest.dart';
 import '../core/class/statusrequest.dart';
 import '../core/constant/color.dart';
 

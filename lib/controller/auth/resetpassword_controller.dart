@@ -2,24 +2,62 @@ import 'package:reserve/core/constant/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../core/class/handingdatacontroller.dart';
+import '../../core/class/statusrequest.dart';
+import '../../data/datasource/remote/forgetpassword/resetpassword.dart';
+
 abstract class ResetPasswordController extends GetxController {
   resetpassword();
   goToSuccessResetPassword();
 }
 
 class ResetPasswordControllerImp extends ResetPasswordController {
+
+
+  ResetPasswordData resetPasswordData = ResetPasswordData(Get.find());
+
+  StatusRequest statusRequest = StatusRequest.none;
+
+
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
 
   late TextEditingController password;
   late TextEditingController repassword;
 
+  String? email;
+
   @override
   resetpassword() {}
 
   @override
-  goToSuccessResetPassword() {
+  goToSuccessResetPassword() async {
+    if(password.text != repassword.text) {
+      return Get.defaultDialog(
+          title: "Warning",
+          middleText: "Password Not Match"
+      );
+    }
     if (formstate.currentState!.validate()) {
-      Get.offNamed(AppRoute.successResetpassword);
+
+      statusRequest = StatusRequest.loading;
+      update();
+      var response = await resetPasswordData.postdata(
+          password.text,
+          email!
+      );
+      print("=============================== Controller $response ");
+      statusRequest = handlingData(response);
+      if (StatusRequest.success == statusRequest) {
+        if (response['statusCode'] == 200) {
+          // data.addAll(response['data']);
+          Get.offNamed(AppRoute.successResetpassword);
+        } else {
+          Get.defaultDialog(title: "ُWarning" , middleText: "Try Again") ;
+          statusRequest = StatusRequest.failure;
+        }
+      }
+      update();
+
     } else {
       print("Not Valid");
     }
@@ -29,6 +67,7 @@ class ResetPasswordControllerImp extends ResetPasswordController {
   void onInit() {
     password = TextEditingController();
     repassword = TextEditingController();
+    email = Get.arguments['email'];
     super.onInit();
   }
 

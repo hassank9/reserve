@@ -1,5 +1,6 @@
-import 'package:reserve/core/constant/routes.dart';
 import 'package:get/get.dart';
+
+import '../../core/constant/routes.dart';
 
 abstract class SuccessSignUpController extends GetxController {
   goToPageLogin();

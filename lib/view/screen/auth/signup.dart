@@ -1,4 +1,5 @@
 import 'package:reserve/controller/auth/signup_controller.dart';
+import 'package:reserve/core/class/statusrequest.dart';
 import 'package:reserve/core/constant/color.dart';
 import 'package:reserve/core/functions/alertexitapp.dart';
 import 'package:reserve/core/functions/validinput.dart';
@@ -29,7 +30,10 @@ class SignUp extends StatelessWidget {
       ),
       body: WillPopScope(
           onWillPop: alertExitApp,
-          child: Container(
+          child: GetBuilder<SignUpControllerImp>(builder: (controller) =>
+              controller.statusRequest == StatusRequest.loading ?
+                  Center(child: Text("loading..."),)
+                  : Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
             child: Form(
               key: controller.formstate,
@@ -100,7 +104,7 @@ class SignUp extends StatelessWidget {
                 ),
               ]),
             ),
-          )),
+          )) ),
     );
   }
 }

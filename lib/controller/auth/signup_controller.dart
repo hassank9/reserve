@@ -1,6 +1,9 @@
-import 'package:reserve/core/constant/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../core/class/handingdatacontroller.dart';
+import '../../core/class/statusrequest.dart';
+import '../../core/constant/routes.dart';
+import '../../data/datasource/remote/auth/signup.dart';
 
 abstract class SignUpController extends GetxController {
   signUp();
@@ -15,10 +18,32 @@ class SignUpControllerImp extends SignUpController {
   late TextEditingController phone;
   late TextEditingController password;
 
+  StatusRequest? statusRequest;
+
+  SignupData signupData = SignupData(Get.find());
+
+  List data = [];
+
   @override
-  signUp() {
+  signUp() async {
     if (formstate.currentState!.validate()) {
-      Get.offNamed(AppRoute.verfiyCodeSignUp);
+      statusRequest = StatusRequest.loading;
+      update();
+      var response = await signupData.postdata(
+          username.text , password.text, email.text, phone.text
+      );
+      print("=============================== Controller $response ");
+      statusRequest = handlingData(response);
+      if (StatusRequest.success == statusRequest) {
+        if (response['errorMessage'] == "User added.") {
+          // data.addAll(response['data']);
+          Get.offNamed(AppRoute.verfiyCodeSignUp , arguments: {"email" : email.text});
+        } else {
+          Get.defaultDialog(title: "ُWarning" , middleText: "Phone Number Or Email Already Exists") ;
+          statusRequest = StatusRequest.failure;
+        }
+      }
+      update();
     } else {}
   }
 

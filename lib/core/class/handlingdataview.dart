@@ -1,5 +1,5 @@
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
 import 'package:reserve/core/class/statusrequest.dart';
 
@@ -15,13 +15,13 @@ class HandlingDataView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return statusRequest == StatusRequest.loading
-        ?   Center(child: Lottie.asset(AppImageAsset.logo , width: 250 , height: 250))
-        : statusRequest == StatusRequest.offlineFailure
-        ? Center(child: Lottie.asset(AppImageAsset.logo , width: 250 , height: 250))
+        ?   Center(child: Lottie.asset(AppImageAsset.loading , width: 250 , height: 250))
+        : statusRequest == StatusRequest.offlinefailure
+        ? Center(child: Lottie.asset(AppImageAsset.offline , width: 250 , height: 250))
         : statusRequest == StatusRequest.serverfailure
-        ?Center(child: Lottie.asset(AppImageAsset.logo , width: 250 , height: 250))
+        ?Center(child: Lottie.asset(AppImageAsset.server , width: 250 , height: 250))
         : statusRequest == StatusRequest.failure
-        ? Center(child: Lottie.asset(AppImageAsset.logo , width: 250 , height: 250 , repeat: true  ))
+        ? Center(child: Lottie.asset(AppImageAsset.noData , width: 250 , height: 250 , repeat: true  ))
         : widget;
   }
 }
@@ -36,14 +36,14 @@ class HandlingDataRequest extends StatelessWidget {
   Widget build(BuildContext context) {
     return statusRequest == StatusRequest.loading
         ? Center(
-        child: Lottie.asset(AppImageAsset.logo, width: 250, height: 250))
+        child: Lottie.asset(AppImageAsset.loading, width: 250, height: 250))
         : statusRequest == StatusRequest.offlinefailure
         ? Center(
-        child: Lottie.asset(AppImageAsset.logo,
+        child: Lottie.asset(AppImageAsset.offline,
             width: 250, height: 250))
         : statusRequest == StatusRequest.serverfailure
         ? Center(
-        child: Lottie.asset(AppImageAsset.logo,
+        child: Lottie.asset(AppImageAsset.server,
             width: 250, height: 250))
         : widget;
   }

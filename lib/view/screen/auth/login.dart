@@ -13,13 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../bindings/intialbindings.dart';
+import '../../../core/class/crud.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
+    Get.lazyPut(() => Crud());
     LoginControllerImp controller = Get.put(LoginControllerImp());
     TestController testController = Get.put(TestController());
     testController.getData();
